@@ -36,9 +36,10 @@ AppDir:
       - libvips-tools
       - python3-opencv
     exclude: []
-
+    
   files:
-    AppDir/usr/src/README.md: usr/share/doc/rayforge/README.md
+    - source: usr/src/README.md
+      target: usr/share/doc/rayforge/README.md
 
   runtime:
     env:
