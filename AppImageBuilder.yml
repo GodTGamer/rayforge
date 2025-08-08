@@ -2,11 +2,11 @@ version: 1
 script:
   - rm -rf AppDir || true
   - mkdir -p AppDir/usr/src
-  - cp -r . AppDir/usr/src/
-  # Erstelle das Zielverzeichnis für die Dokumentation
+  # Kopiere alle Dateien und Verzeichnisse, aber schließe AppDir selbst aus.
+  - rsync -a --exclude AppDir/ . AppDir/usr/src/
+  # Der Rest deines Skripts (README kopieren, pip install, etc.) bleibt gleich.
   - mkdir -p AppDir/usr/share/doc/rayforge
-  # Kopiere die README-Datei an den richtigen Ort
-  - cp AppDir/usr/src/README.md AppDir/usr/share/doc/rayforge/
+  - mv AppDir/usr/src/README.md AppDir/usr/share/doc/rayforge/
   - |
     python3 -m pip install --system --ignore-installed --prefix=/usr --root=AppDir -r ./requirements.txt || true
   - |
