@@ -2,9 +2,9 @@ version: 1
 script:
   - rm -rf AppDir || true
   - mkdir -p AppDir/usr/src
-  # Kopiere alle Dateien und Verzeichnisse, aber schließe AppDir selbst aus.
-  - rsync -a --exclude AppDir/ . AppDir/usr/src/
-  # Der Rest deines Skripts (README kopieren, pip install, etc.) bleibt gleich.
+  # Verwende 'find', um alles (inkl. Dotfiles) aus dem aktuellen Verzeichnis zu kopieren,
+  # aber schließe das 'AppDir'-Verzeichnis selbst aus.
+  - find . -maxdepth 1 -mindepth 1 -not -name AppDir -exec cp -r {} AppDir/usr/src/ \;
   - mkdir -p AppDir/usr/share/doc/rayforge
   - mv AppDir/usr/src/README.md AppDir/usr/share/doc/rayforge/
   - |
