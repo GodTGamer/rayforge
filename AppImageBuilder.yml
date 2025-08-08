@@ -1,12 +1,17 @@
 version: 1
 script:
+  # Vorbereitende Schritte bleiben gleich
   - rm -rf AppDir || true
   - mkdir -p AppDir/usr/src
-  # Verwende 'find', um alles (inkl. Dotfiles) aus dem aktuellen Verzeichnis zu kopieren,
-  # aber schließe das 'AppDir'-Verzeichnis selbst aus.
   - find . -maxdepth 1 -mindepth 1 -not -name AppDir -exec cp -r {} AppDir/usr/src/ \;
   - mkdir -p AppDir/usr/share/doc/rayforge
   - mv AppDir/usr/src/README.md AppDir/usr/share/doc/rayforge/
+
+  # NEU: Aktualisiere zuerst die Kern-Packaging-Tools, um Versionskonflikte zu vermeiden
+  - python3 -m pip install --upgrade pip setuptools wheel
+
+  # Bestehende Installationsbefehle. Die || true sind hier wahrscheinlich nicht mehr nötig,
+  # aber schaden auch nicht.
   - |
     python3 -m pip install --system --ignore-installed --prefix=/usr --root=AppDir -r ./requirements.txt || true
   - |
