@@ -1,0 +1,29 @@
+name: Build AppImage
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-appimage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build deps (minimal)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip python3-gi python3-opencv libvips libvips-tools gir1.2-gtk-4.0 gir1.2-adw-1
+
+      - name: Build AppImage
+        uses: AppImageCrafters/build-appimage@master
+        with:
+          recipe: "./AppImageBuilder.yml"
+
+      - name: Upload AppImage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rayforge-appimage
+          path: "*.AppImage"
