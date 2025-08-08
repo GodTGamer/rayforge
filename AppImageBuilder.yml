@@ -3,12 +3,10 @@ version: 1
 script:
   - rm -rf AppDir || true
   - mkdir -p AppDir/usr/src
-  - cp -r . AppDir/usr/src/  # Copy project into AppDir
+  - cp -r . AppDir/usr/src/
   - |
-    # Install python deps into AppDir using system python in the build environment
     python3 -m pip install --system --ignore-installed --prefix=/usr --root=AppDir -r ./requirements.txt || true
   - |
-    # Install the package itself into the AppDir so console scripts are created
     python3 -m pip install --system --ignore-installed --prefix=/usr --root=AppDir .
 
 AppDir:
@@ -16,7 +14,7 @@ AppDir:
   app_info:
     id: com.barebaric.rayforge
     name: Rayforge
-    icon: rayforge   # put a rayforge.png into usr/share/icons/hicolor/256x256/apps/rayforge.png or repo root
+    icon: rayforge
     version: 0.1.0
     exec: usr/bin/rayforge
     exec_args: "$@"
@@ -40,13 +38,13 @@ AppDir:
     exclude: []
 
   files:
-    - source: AppDir/usr/src/README.md
-      target: usr/share/doc/rayforge/README.md
+    AppDir/usr/src/README.md: usr/share/doc/rayforge/README.md
 
   runtime:
     env:
       PYTHONHOME: '${APPDIR}/usr'
       PYTHONPATH: '${APPDIR}/usr/lib/python3/dist-packages:${APPDIR}/usr/lib/python3/site-packages'
+
   test:
     ubuntu:
       image: appimagecrafters/tests-env:ubuntu-xenial
