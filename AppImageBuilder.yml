@@ -1,14 +1,17 @@
 version: 1
-
 script:
   - rm -rf AppDir || true
   - mkdir -p AppDir/usr/src
   - cp -r . AppDir/usr/src/
+  # Erstelle das Zielverzeichnis für die Dokumentation
+  - mkdir -p AppDir/usr/share/doc/rayforge
+  # Kopiere die README-Datei an den richtigen Ort
+  - cp AppDir/usr/src/README.md AppDir/usr/share/doc/rayforge/
   - |
     python3 -m pip install --system --ignore-installed --prefix=/usr --root=AppDir -r ./requirements.txt || true
   - |
     python3 -m pip install --system --ignore-installed --prefix=/usr --root=AppDir .
-
+    
 AppDir:
   path: ./AppDir
   app_info:
@@ -36,10 +39,6 @@ AppDir:
       - libvips-tools
       - python3-opencv
     exclude: []
-
-  files:
-    # Zielpfad innerhalb des AppDir : Quellpfad im Repo (relativ zum Repo root)
-    usr/share/doc/rayforge/README.md: usr/src/README.md
 
   runtime:
     env:
