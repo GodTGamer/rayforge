@@ -36,10 +36,10 @@ AppDir:
       - libvips-tools
       - python3-opencv
     exclude: []
-    
+
   files:
-    - source: usr/src/README.md
-      target: usr/share/doc/rayforge/README.md
+    # Zielpfad innerhalb des AppDir : Quellpfad im Repo (relativ zum Repo root)
+    usr/share/doc/rayforge/README.md: usr/src/README.md
 
   runtime:
     env:
